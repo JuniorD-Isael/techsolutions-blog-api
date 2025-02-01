@@ -1,0 +1,17 @@
+language: python
+python:
+  - "3.12"
+
+services:
+  - docker
+
+before_install:
+  - docker --version
+
+install:
+  - pip install poetry
+  - poetry config virtualenvs.in-project true
+  - poetry install --no-root
+
+script:
+  - poetry run ruff check .
