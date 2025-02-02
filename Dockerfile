@@ -1,13 +1,21 @@
-FROM python:3.12-slim
+ARG PYTHON_VERSION=3.12-slim
 
-WORKDIR /app
+FROM python:${PYTHON_VERSION}
 
-RUN pip install --no-cache-dir poetry
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
-COPY pyproject.toml poetry.lock ./
+RUN mkdir -p /code
 
-RUN poetry install --no-root --no-interaction --no-ansi
+WORKDIR /code
 
-COPY . .
+COPY requirements.txt /tmp/requirements.txt
+RUN set -ex && \
+    pip install --upgrade pip && \
+    pip install -r /tmp/requirements.txt && \
+    rm -rf /root/.cache/
+COPY . /code
 
-CMD ["poetry", "run", "ruff", "check", "."]
+EXPOSE 8000
+
+CMD ["gunicorn","--bind",":8000","--workers","2","techsolutions_blog.wsgi"]
