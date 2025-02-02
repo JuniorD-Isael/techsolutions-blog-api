@@ -22,3 +22,12 @@ class Postagem(models.Model):
 
     def __str__(self):
         return self.titulo
+
+class Comentarios(models.Model):
+    postagem = models.ForeignKey("base.Postagem", on_delete=models.CASCADE, related_name="comentarios")
+    autor = models.ForeignKey(User, on_delete=models.CASCADE)
+    conteudo = models.TextField()
+    data_criacao = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Comentário de {self.autor} em {self.postagem}"
