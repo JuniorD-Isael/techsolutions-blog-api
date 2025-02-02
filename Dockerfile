@@ -14,4 +14,4 @@ COPY . .
 
 EXPOSE 8000
 
-CMD ["poetry", "run", "gunicorn", "techsolutions_blog_api.wsgi:application", "--bind", "0.0.0.0:8000"]
+CMD ["poetry", "run", "gunicorn", "techsolutions_blog.wsgi:application", "--bind", "0.0.0.0:8000"]
