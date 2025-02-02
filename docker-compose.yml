@@ -1,0 +1,14 @@
+version: '3.12'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: gunicorn techsolutions_blog.wsgi:application --bind 0.0.0.0:${PORT:-8000}
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    environment:
+      - PORT=8000
