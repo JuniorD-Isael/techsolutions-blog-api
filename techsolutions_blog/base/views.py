@@ -27,11 +27,11 @@ class PostagemViewSet(viewsets.ModelViewSet):
             return Response({"detail": "Você não tem permissão para editar esta postagem."}, status=403)
         serializer.save(autor=self.request.user)
 
-    @action(detail=False, methods=['get'])
-    def lista_postagens(self, request):
-        postagens = self.queryset.all()
-        serializer = self.get_serializer(postagens, many=True)
-        return Response(serializer.data)
+    def destroy(self, request, *args, **kwargs):
+        postagem = self.get_object()
+        if postagem.autor != self.request.user:
+            return Response({"detail": "Você não tem permissão para excluir esta postagem."}, status=403)
+        return super().destroy(request, *args, **kwargs)
 
     @action(detail=True, methods=['get'])
     def visualizar_postagem(self, request, pk=None):
