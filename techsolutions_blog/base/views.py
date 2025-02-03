@@ -42,11 +42,11 @@ class PostagemViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['post'], url_path='comentarios')
     def comentarios(self, request, slug=None):
-        postagem = self.get_object()  # Aqui, pegamos a postagem usando o slug vindo da URL
+        postagem = self.get_object()
         serializer = ComentarioSerializer(data=request.data, context={'request': request, 'postagem': postagem})
 
         if serializer.is_valid():
-            comentario = serializer.save()  # O comentário será salvo com a postagem e o autor
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
