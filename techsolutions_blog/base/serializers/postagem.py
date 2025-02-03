@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from .models import Postagem
-from .serializers_user import UserSerializer
+from techsolutions_blog.base.models import Postagem
+from techsolutions_blog.base.serializers.user import UserSerializer
 
 class PostagemSerializer(serializers.ModelSerializer):
     autor = UserSerializer(read_only=True)

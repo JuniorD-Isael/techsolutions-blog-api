@@ -1,8 +1,9 @@
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from .models import Postagem
-from .serializers import PostagemSerializer
+from .serializers.comentario import ComentarioSerializer
+from .serializers.postagem import PostagemSerializer
 from rest_framework.decorators import action
 
 
@@ -38,3 +39,14 @@ class PostagemViewSet(viewsets.ModelViewSet):
         postagem = self.get_object()
         serializer = self.get_serializer(postagem)
         return Response(serializer.data)
+
+    @action(detail=True, methods=['post'], url_path='comentarios')
+    def comentarios(self, request, slug=None):
+        postagem = self.get_object()  # Aqui, pegamos a postagem usando o slug vindo da URL
+        serializer = ComentarioSerializer(data=request.data, context={'request': request, 'postagem': postagem})
+
+        if serializer.is_valid():
+            comentario = serializer.save()  # O comentário será salvo com a postagem e o autor
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
