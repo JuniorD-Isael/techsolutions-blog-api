@@ -14,6 +14,9 @@ class Postagem(models.Model):
     artigo = models.TextField(max_length=4000)
     slug = models.SlugField(unique=True, blank=True, null=True)
 
+    class Meta:
+        ordering = ["-data_postagem"]
+
 
     def save(self, *args, **kwargs):
         if not self.slug:
