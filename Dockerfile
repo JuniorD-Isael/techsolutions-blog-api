@@ -15,7 +15,11 @@ RUN set -ex && \
     pip install -r /tmp/requirements.txt && \
     rm -rf /root/.cache/
 COPY . /code
+COPY .env /code/techsolutions_blog/.env
+
 
 EXPOSE 8000
 
-CMD ["gunicorn","--bind",":8000","--workers","2","techsolutions_blog.wsgi"]
+# RUN python manage.py migrate
+
+CMD ["gunicorn", "--bind", ":8000", "--workers", "2", "techsolutions_blog.wsgi"]
