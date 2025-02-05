@@ -15,7 +15,7 @@ RUN set -ex && \
     pip install -r /tmp/requirements.txt && \
     rm -rf /root/.cache/
 COPY . /code
-COPY .env /code/techsolutions_blog/.env
+# COPY .env /code/techsolutions_blog/.env
 
 
 EXPOSE 8000
