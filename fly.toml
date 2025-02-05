@@ -1,30 +1,30 @@
-# fly.toml app configuration file generated for techsolutions-blog-api on 2025-02-02T01:20:37-03:00
-#
-# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
-#
+# fly.toml app configuration file for techsolutions-blog-api
 
-app = 'techsolutions-blog-api'
-primary_region = 'gru'
-console_command = '/code/manage.py shell'
+app = "techsolutions-blog-api"
+primary_region = "gru"
+console_command = "/code/manage.py shell"
 
 [build]
+  dockerfile = "Dockerfile"
 
 [env]
-  PORT = '8000'
+  PORT = "8000"
+  DB_PORT = "5432"
+  DEBUG = "False"
 
 [http_service]
   internal_port = 8000
   force_https = true
-  auto_stop_machines = 'stop'
+  auto_stop_machines = "stop"
   auto_start_machines = true
   min_machines_running = 0
-  processes = ['app']
+  processes = ["app"]
 
 [[vm]]
-  memory = '1gb'
-  cpu_kind = 'shared'
+  memory = "1gb"
+  cpu_kind = "shared"
   cpus = 1
 
 [[statics]]
-  guest_path = '/code/static'
-  url_prefix = '/static/'
+  guest_path = "/code/static"
+  url_prefix = "/static/"
